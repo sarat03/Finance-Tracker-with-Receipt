@@ -1,5 +1,18 @@
 # 📄 Receipt Extractor Web App
 
+![Status](https://img.shields.io/badge/status-in--progress-yellow)
+
+**Currently implementing: Phase 1 – Web-based Receipt Extraction Prototype**
+---
+
+## 🛣️ Project Roadmap
+
+- **Phase 1 (Current):** Web application for uploading receipts and extracting data with OpenAI API
+- **Phase 2 (Planned):** Mobile application with enhanced user experience
+- **Phase 3 (Future):** Integration of LLM Hub for multi-LLM support
+
+_This repository will be updated as the project progresses to new phases._
+
 ## Project Overview & Requirements
 
 **Goal:**  
@@ -116,9 +129,13 @@ This project should allow a user to upload a receipt image, extract all relevant
    pip install -r requirements.txt
    ```
 
-4. **Configure your API key:**
-   - Open `config.py`
-   - Replace the `OPENAI_API_KEY` value with your OpenAI API key:
+4. **Configure your API key (do not commit secrets):**
+   - This repo ignores `config.py` via `.gitignore` to keep your key private
+   - Copy the example to your local config and edit it:
+   ```bash
+   cp config_example.py config.py
+   ```
+   - Open `config.py` and set your real key:
    ```python
    OPENAI_API_KEY = "your-openai-api-key-here"
    ```
@@ -130,16 +147,9 @@ This project should allow a user to upload a receipt image, extract all relevant
    - Expected: a short success message confirming the API is reachable
 
 6. **Run the application:**
-
-   **Option A: Organized Version (Recommended)**
-   ```bash
-   python run_organized.py
-   ```
-   
-   **Option B: Direct Launch**
-   ```bash
-   python app_organized.py
-   ```
+```bash
+python app_organized.py
+```
 
 7. **Open your browser and go to:**
    ```
@@ -150,31 +160,16 @@ This project should allow a user to upload a receipt image, extract all relevant
 
 ```
 receipt-extractor/
-├── 📁 Organized Version (Recommended)
-│   ├── receipt_extractor.py      # Core extraction logic module
-│   ├── app_organized.py          # Clean Flask application
-│   ├── run_organized.py          # Organized launcher script
-│   └── 📁 templates/
-│       └── index.html            # Beautiful web interface
-│
-├── 📁 Configuration & Documentation
-│   ├── config.py                 # Centralized configuration
-│   ├── requirements.txt          # Python dependencies
-│   ├── README.md                 # This documentation
-│   └── .gitignore               # Version control exclusions
-│
-├── 📁 Legacy Versions
-│   ├── app_final.py             # Previous working version
-│   ├── app_robust.py            # SSL-handling version
-│   ├── app.py                   # Basic Flask version
-│   ├── extract_receipt_v2.py    # Command-line version
-│   └── extract_receipt.py       # Original command-line version
-│
-├── 📁 Assets
-│   ├── IMG_0075.jpeg            # Sample receipt image
-│   └── venv/                    # Virtual environment
-│
-└── run.py                       # Legacy launcher
+├── app_organized.py          # Flask web application
+├── receipt_extractor.py      # Core extraction logic
+├── config_example.py         # Example config (committed)
+├── config.py                 # Local config (gitignored)
+├── requirements.txt          # Python dependencies
+├── README.md                 # Documentation
+├── test_api.py               # Optional API connectivity test
+├── templates/
+│   └── index.html            # Web UI
+└── venv/                     # Virtual environment (local)
 ```
 
 ## 🎯 Usage
