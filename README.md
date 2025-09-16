@@ -295,4 +295,7 @@ Feel free to submit issues and enhancement requests!
 
 ---
 
+![Demo](./demo.gif)
+
+
 **Happy Receipt Processing! 📄✨** 
