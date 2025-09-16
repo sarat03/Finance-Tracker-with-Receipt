@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt Extractor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .upload-form { 
+            border: 3px dashed #667eea; 
+            padding: 40px; 
+            text-align: center; 
+            margin: 30px 0; 
+            border-radius: 15px; 
+            background: #f8f9ff;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-form:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        
+        .file-input {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .file-input-label:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .selected-file {
+            margin-top: 15px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .btn { 
+            background: linear-gradient(45deg, #667eea, #764ba2); 
+            color: white; 
+            padding: 15px 40px; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 18px; 
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading { 
+            display: none; 
+            color: #667eea; 
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error { 
+            color: #d32f2f; 
+            background: #ffebee; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border: 1px solid #ffcdd2; 
+            margin: 20px 0;
+        }
+        
+        .success { 
+            background: #e8f5e8; 
+            padding: 25px; 
+            border-radius: 10px; 
+            margin: 30px 0; 
+            border: 1px solid #c8e6c9;
+        }
+        
+        .success h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        pre { 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            background: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 8px; 
+            border: 1px solid #dee2e6;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border: 1px solid #e3e6ff;
+        }
+        
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .feature h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .feature p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .upload-form {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📄 Receipt Extractor</h1>
+            <p>Upload a receipt image to extract structured data in CSV format using AI</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-Powered</h3>
+                <p>Uses OpenAI GPT-4 Vision for accurate extraction</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Structured Output</h3>
+                <p>Generates organized CSV with all receipt details</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Fast Processing</h3>
+                <p>Quick extraction with multiple SSL fallbacks</p>
+            </div>
+        </div>
+        
+        <div class="upload-form">
+            <form method="post" enctype="multipart/form-data" id="uploadForm">
+                <div class="file-input-wrapper">
+                    <input type="file" name="receipt" accept="image/*" class="file-input" id="fileInput" required>
+                    <label for="fileInput" class="file-input-label">📁 Choose Receipt Image</label>
+                </div>
+                <div class="selected-file" id="selectedFile"></div>
+                <br><br>
+                <button type="submit" class="btn" id="submitBtn">
+                    🔍 Extract Receipt Data
+                </button>
+            </form>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>🔄 Processing receipt... This may take a few seconds.</p>
+        </div>
+        
+        {% if error %}
+        <div class="error">
+            <strong>❌ Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if csv %}
+        <div class="success">
+            <h3>✅ Extracted Receipt Data:</h3>
+            {% set lines = csv.replace('```csv','').replace('```','').strip().splitlines() %}
+            {% if lines|length > 1 %}
+                <div style="overflow-x:auto;">
+                <table border="1" cellpadding="8" cellspacing="0" style="background:#fff;border-radius:8px;">
+                    <thead>
+                        <tr>
+                        {% for col in lines[0].split(',') %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in lines[1:] %}
+                        <tr>
+                        {% for cell in row.split(',') %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+                <button id="showCsvBtn" style="margin-top:16px;">Show CSV</button>
+                <pre id="csvRaw" style="display:none; margin-top:10px;">{{ csv }}</pre>
+                <script>
+                    document.getElementById('showCsvBtn').onclick = function() {
+                        var csvRaw = document.getElementById('csvRaw');
+                        if (csvRaw.style.display === 'none') {
+                            csvRaw.style.display = 'block';
+                            this.textContent = 'Hide CSV';
+                        } else {
+                            csvRaw.style.display = 'none';
+                            this.textContent = 'Show CSV';
+                        }
+                    };
+                </script>
+            {% else %}
+                <pre>{{ csv }}</pre>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').textContent = '⏳ Processing...';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').textContent = '🔍 Extract Receipt Data';
+        }
+        
+        // Show selected filename
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            const selectedFileDiv = document.getElementById('selectedFile');
+            if (fileName) {
+                selectedFileDiv.textContent = `Selected: ${fileName}`;
+            } else {
+                selectedFileDiv.textContent = '';
+            }
+        });
+        
+        // Prevent form submission if no file selected
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files[0]) {
+                e.preventDefault();
+                alert('Please select a receipt image first.');
+                return false;
+            }
+        });
+        
+        // Hide loading if there's an error or success message
+        window.addEventListener('load', function() {
+            const errorDiv = document.querySelector('.error');
+            const successDiv = document.querySelector('.success');
+            if (errorDiv || successDiv) {
+                hideLoading();
+            }
+        });
+    </script>
+</body>
+</html> 
