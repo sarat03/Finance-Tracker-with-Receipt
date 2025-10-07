@@ -1,11 +1,11 @@
-# 📄 Receipt Extractor Web App
+# Receipt Extractor Web App
 
 ![Status](https://img.shields.io/badge/status-in--progress-yellow)
 
 **Currently implementing: Phase 1 – Web-based Receipt Extraction Prototype**
 ---
 
-## 🛣️ Project Roadmap
+## Project Roadmap
 
 - **Phase 1 (Current):** Web application for uploading receipts and extracting data with OpenAI API
 - **Phase 2 (Planned):** Mobile application with enhanced user experience
@@ -94,7 +94,7 @@ Build a Python web application that allows users to upload receipt images and ex
 **Summary:**  
 This project should allow a user to upload a receipt image, extract all relevant itemized data using GPT-4 Vision, and present it as a downloadable CSV table in a modern web interface, with robust error handling and clear separation of data and presentation.
 
-## ✨ Features
+## Features
 
 - **Image Upload**: Support for multiple image formats (PNG, JPG, JPEG, GIF, BMP)
 - **AI-Powered Extraction**: Uses OpenAI GPT-4 Vision API for accurate data extraction
@@ -106,7 +106,7 @@ This project should allow a user to upload a receipt image, extract all relevant
 - **Error Handling**: Comprehensive error handling with user-friendly messages
 - **Modular Architecture**: Clean separation of concerns with organized code structure
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -156,7 +156,7 @@ python app_organized.py
    http://127.0.0.1:8080
    ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 receipt-extractor/
@@ -172,7 +172,7 @@ receipt-extractor/
 └── venv/                     # Virtual environment (local)
 ```
 
-## 🎯 Usage
+## Usage
 
 ### Web Interface (Recommended)
 
@@ -186,7 +186,7 @@ receipt-extractor/
 python receipt_extractor.py /path/to/your/receipt.jpg
 ```
 
-## 📊 Output Format
+## Output Format
 
 The application extracts the following data in CSV format:
 
@@ -207,7 +207,7 @@ Date,Store Name,Store Address,Item Name,Price per Item,Tax per Item,Category
 2025-03-30,H&M,Jersey Gardens Mall, 651 Kapkowski Road, Elizabeth, NJ 07201,Shirts Style Platfor,$39.99,$0.00,Clothes
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ### Organized Version Structure
 
@@ -231,7 +231,7 @@ Date,Store Name,Store Address,Item Name,Price per Item,Tax per Item,Category
   - Environment-specific configurations
   - Centralized configuration
 
-## 🔧 Technical Details
+## Technical Details
 
 ### SSL Issues Resolution
 
@@ -249,7 +249,7 @@ The application includes multiple SSL handling strategies to work around macOS S
 - **Timeout**: 60 seconds
 - **Retry Attempts**: 3
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### SSL Certificate Issues
 If you encounter SSL errors, the app automatically handles them with multiple fallback methods. The organized version (`app_organized.py`) is recommended for macOS users.
@@ -270,7 +270,7 @@ If you get missing file errors:
 - Check that `templates/` folder contains `index.html`
 - Verify `receipt_extractor.py` is in the root directory
 
-## 📝 Dependencies
+## Dependencies
 
 - **Flask**: Web framework
 - **Pillow**: Image processing
@@ -278,18 +278,18 @@ If you get missing file errors:
 - **urllib3**: HTTP library
 - **OpenAI API**: AI model access
 
-## 🔒 Security Notes
+## Security Notes
 
 - This is a development server - not suitable for production
 - API keys are configured in `config.py` for local use only
 - SSL verification is disabled for compatibility
 - Use environment variables for production deployments
 
-## 📄 License
+## License
 
 This project is for educational and personal use. Please respect OpenAI's terms of service.
 
-## 🤝 Contributing
+## Contributing
 
 Feel free to submit issues and enhancement requests!
 
@@ -298,4 +298,4 @@ Feel free to submit issues and enhancement requests!
 ![Demo](./demo.gif)
 
 
-**Happy Receipt Processing! 📄✨** 
+**Happy Receipt Processing!** 
